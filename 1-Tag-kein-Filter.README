@@ -1,0 +1,44 @@
+#######
+#README
+# 
+# 
+#Titel: Script zu LogMaster-MTA (LogMaster-MailTransferAgent)
+#Autor: Röper Luke, Stadt Augsburg
+#Verändernder Autor: -
+#Version: 1.0 Release (0.0.1 Non-Release)
+
+
+INSTALLATION
+
+	1-Tag-kein-Filter.cmd bearbeiten und den Wert von -SourceFiles= im Script anpassen (nicht Umlautkompatibel!)
+
+
+BENUTZUNG
+	
+	[Vorgang-Beginn]
+	1-Tag-kein-Filter.cmd per Doppelklick ausführen
+	<Programm fragt gewünschtes Datum ab>
+	<Programm löscht alle .csv Dateien im Ordner temp-csv-export\>
+	<Programm führt LogMaster-MTA.exe für den gesamten angegebenen Tag aus>
+	<Programm verschiebt die generierte .csv Datei nach temp-csv-export\>
+	<Programm Ende>
+	[Vorgang-Abgeschlossen]
+	
+	ANMERKUNG	 Keine Kommandozeilenparameter vorhanden!
+
+
+INFORMATIONEN
+
+	WEITERVERWENDUNG
+				 Frei zur Veränderung unter Angabe des Originalen & Verändernden Autors.
+	
+	AENDERUNGS-DATUM
+				 README 15.04.2019 15:20
+				 CPP-Code 15.04.2019 15:00
+#
+#
+# 
+# 
+# 
+#README
+#######

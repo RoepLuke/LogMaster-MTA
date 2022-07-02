@@ -1,0 +1,173 @@
+#######
+#README
+# 
+# 
+#Titel: LogMaster-MTA (LogMaster-MailTransferAgent)
+#Autor: Röper Luke, Stadt Augsburg
+#Verändernder Autor: -
+#Version: 1.1 Release (0.3.4 Non-Release)
+
+
+KOMMANDOZEILEN-OPTIONEN
+
+	./LogMaster-MTA.2-2.out [(-System=) (-ExecMode=) (-SourceFiles=)] [(-Date=) (-Time=) { (-VonFilter=) / (-AnFilter=) / (Id-Filter=) }]
+	LogMaster-MTA.2-2.exe [(-System=) (-ExecMode=) (-SourceFiles=)] [(-Date=) (-Time=) { (-VonFilter=) / (-AnFilter=) / (Id-Filter=) }]
+
+
+	SYSTEM
+		-System=0	--> 	Windows
+		-System=1	-->	Linux
+
+
+	EXEC-MODE (Ausführungsmodus)
+		-ExecMode=0	-->	Kommandozeile (Eingabe & Ausgabe)
+		-ExecMode=1	-->	Zur Weiterverwendung optimierte LogMaster-MTA.<date>.<time>.csv wird generiert
+		-ExecMode=2	-->	Kommandozeile (Eingabe & Ausgabe) + DEBUG Informationen (Kommandozeilenausgabe)
+		-ExecMode=3	-->	(Neu-)Erstellen der LogMaster-MTA.defaults Datei
+		
+		-ExecMode=X0 -->	Kommandozeile (minimaler bis kein Kommandozeilenoutput)
+		-ExecMode=X1 -->	Datei wird generiert (minimaler bis kein Kommandozeilenoutput) 
+		
+		-ExecMode=C0 -->	"be Careful": Beim Zusammenfassen der E-Mails geht das Programm langsam vor um wirklich keine E-Mail zu übersehen (deutliche Verlangsamung!)
+		-ExecMode=C1		Nur zu Diagnosezwecken zu empfehlen.
+		-ExecMode=C2
+		
+		-ExecMode=XC0 -->	Kombination von X0 & C0
+		-ExecMode=XC1 --> 	Kombination von X1 & C1
+
+	SOURCE-FILES (Mail-Logdateien)
+		-SourceFiles=<ORDNER-PFAD>
+
+				WENN -System=0 		z. B. C:\Windows\Logs\Mail\ 	(PFAD enthält direkt alle mail-JJJJMMTT Dateien)
+							z. B. \\XYZ\Share\Ordner\Unterordner\ 	(Ausführender Benutzer benötigt Leserechte)
+							z. B. Z:\Ordner\Unterordner\	(Netzlaufwerke bestenfalls einhängen)
+
+				WENN -System=1		z. B. /var/log/mail/		(Lokales Verzeichnis)
+							z. B. /mnt/WinShare01/data/	(Eingehängtes Verzeichnis) (mount bzw. /etc/fstab)
+
+
+	DATE (Filteroption Datum)
+		-Date=<TT.MM.JJJJ>
+				Format			TT = Tag (2 Zeichen) . MM = Monat (2 Zeichen) . JJJJ = Jahr (4 Zeichen);
+							Erlaubte Trennzeichen = '.'
+							z. B. -Date=04.03.2019
+							
+	TIME (Filteroption Zeitbereich)
+		-Time=<HH:MM:SS>
+				Format			HH = Stunde (2 Zeichen) : MM = Minute (2 Zeichen) : SS = Sekunde (2 Zeichen);
+							Erlaubte Trennzeichen = ':'
+							z. B. -Time=12: 	(12:00:00 bis 12:59:59)
+							z. B. -Time=12:1	(12:10:00 bis 12:19:59)
+							z. B. -Time=12:10:	(12:10:00 bis 12:10:59)
+							Erlaubte Eingabeformate = 'HH:' 'HH:M' 'HH:MM:'
+
+
+	VON- / AN- / ID-FILTER
+		(Nur EIN Filter!)		z. B. -VonFilter=example@example.org
+		-VonFilter				Ausgabe der E-Mails nach Sender-E-Mail-Adresse filtern	
+		-AnFilter				Ausgabe der E-Mails nach Empfänger-E-Mail-Adresse filtern
+		-IdFilter				Ausgabe der E-Mails nach der Message-ID filtern (1 eindeutiges Ergebnis)
+							z. B. -VonFilter=maximilian.mustermann@beispiel.de
+							z. B. -AnFilter=maxime.musterfrau@beispiel.de
+							z. B. -IdFilter=wzf8ezh98wz.94zz98zw479w-zef98e@beispiel.de
+
+
+INSTALLATION
+
+	(LogMaster-MTA.defaults wird generiert --> Nicht notwendig wenn Parameter -System & -ExecMode & -SourceFiles bei jeder Ausführung angegeben werden)
+
+	./LogMaster-MTA.out -System=1 -ExecMode=3 ( -SourceFiles= <gewuenschter-Standardpfad> )
+	LogMaster-MTA.exe -System=0 -ExecMode=3	( -SourceFiles= <gewuenschter-Standardpfad> )
+
+	WENN -SourceFiles AUSGELASSEN			Programm frägt den gewünschten Standardpfad für -SourceFiles ab (Kommandozeile)
+
+	BEISPIEL-AUSZUG
+							'system = 0'
+							'exec-mode = 0'
+							'source-files-path = <gewuenschter-Standardpfad>'
+
+
+BENUTZUNG
+	
+	./LogMaster-MTA.out
+	./Logmaster-MTA.out -System=1 -ExecMode=0 -SourceFiles=<XYZ>
+	./LogMaster-MTA.out -System=1 -ExecMode=0 -SourceFiles=<XYZ> -Date=04.03.2019 -Time=DAY
+	./LogMaster-MTA.out -System=1 -ExecMode=0 -SourceFiles=<XYZ> -Date=04.03.2019 -Time=00:00:
+	./LogMaster-MTA.out -System=1 -ExecMode=0 -SourceFiles=<XYZ> -Date=04.03.2019 -Time=00:00: -VonFilter=max.mustermann@beispiel.de
+
+	LogMaster-MTA.exe
+	Logmaster-MTA.exe -System=0 -ExecMode=0 -SourceFiles=<XYZ>
+	LogMaster-MTA.exe -System=0 -ExecMode=0 -SourceFiles=<XYZ> -Date=04.03.2019 -Time=DAY
+	LogMaster-MTA.exe -System=0 -ExecMode=0 -SourceFiles=<XYZ> -Date=04.03.2019 -Time=00:00:
+	LogMaster-MTA.exe -System=0 -ExecMode=0 -SourceFiles=<XYZ> -Date=04.03.2019 -Time=00:00: -VonFilter=max.mustermann@beispiel.de
+
+	ANMERKUNG					Hier gezeigte / genannte Parameterkombinationen sind zwingend einzuhalten!
+
+	PARAMETER-KOMBINATION
+					(1)		<File.out/exe>
+					(2)		<File.out/exe> -System=? -ExecMode=? -SourceFiles=?
+					(3)		<File.out/exe> -System=? -ExecMode=? -SourceFiles=? -Date=? -Time=?
+					(4a)	<File.out/exe> -System=? -ExecMode=? -SourceFiles=? -Date=? -Time=? -VonFilter=?
+					(4b)	<File.out/exe> -System=? -ExecMode=? -SourceFiles=? -Date=? -Time=? -AnFilter=?
+					(4c)	<File.out/exe> -System=? -ExecMode=? -SourceFiles=? -Date=? -Time=? -IdFilter=?
+
+
+PROGRAMM-VERHALTEN
+
+	PARAMETER-KOMBINATION (1)
+							 [Vorgang-Beginn]
+							<Lade Standardwerte aus LogMaster-MTA.defaults (und zeige sie an)>
+							 "Bitte geben Sie den gewünschten Tag an (Format=TT-MM-JJJJ): " <INPUT>
+							<Suche und öffne Logdatei mail-JJJJMMTT in Standardpfad>
+							 "Bitte geben Sie das gewünschte Zeitfenster an" <INPUT>
+							<Suche passende Zeilen & Lade diese in den Arbeitsspeicher (ASP)>
+							 "Wie wollen Sie Filtern? (ENTER für Ausgabe aller Eigenschaften & Elemente)" <INPUT>
+							<Analysiere Zeilen im ASP, Fasse Daten als "E-Mail-Elemente" zusammen>
+							<Filtere E-Mail-Elemente>
+							 Zeige E-Mail-Elemente strukturiert an / Umleitung in Datei
+							 [Vorgang-Abgeschlossen]
+
+	PARAMETER-KOMBINATION (2)
+							 [Vorgang-Beginn]
+							 "Bitte geben Sie den gewünschten Tag an (Format=TT-MM-JJJJ): " <INPUT>
+							<Suche und öffne Logdatei mail-JJJJMMTT in angegeben Pfad>
+							 "Bitte geben Sie das gewünschte Zeitfenster an" <INPUT>
+							<Suche passende Zeilen & Lade diese in den Arbeitsspeicher (ASP)>
+							 "Wie wollen Sie Filtern? (ENTER für Ausgabe aller Eigenschaften & Elemente)" <INPUT>
+							<Analysiere Zeilen im ASP, Fasse Daten als "E-Mail-Elemente" zusammen>
+							<Filtere E-Mail-Elemente> 
+							 Zeige E-Mail-Elemente strukturiert an / Umleitung in Datei
+							 [Vorgang-Abgeschlossen]
+
+	PARAMETER-KOMBINATION (3)
+							 [Vorgang-Beginn]
+							<Suche und öffne Logdatei mail-JJJJMMTT in Standardpfad>
+							<Suche Zeitlich passende Zeilen & Lade diese in den Arbeitsspeicher (ASP)>
+							<Analysiere Zeilen im ASP, Fasse Daten als "E-Mail-Elemente" zusammen>
+							 Zeige E-Mail-Elemente strukturiert an / Umleitung in Datei
+							 [Vorgang-Abgeschlossen]
+
+	PARAMETER-KOMBINATION (4a/4b/4c)
+							 [Vorgang-Beginn]
+							<Suche und öffne Logdatei mail-JJJJMMTT in Standardpfad>
+							<Suche Zeitlich passende Zeilen & Lade diese in den Arbeitsspeicher (ASP)>
+							<Analysiere Zeilen im ASP, Fasse Daten als "E-Mail-Elemente" zusammen>
+							<Filtere E-Mail-Elemente>
+							 Zeige E-Mail-Elemente strukturiert an / Umleitung in Datei
+							 [Vorgang-Abgeschlossen]
+
+INFORMATIONEN
+
+	WEITERVERWENDUNG
+				 Frei zur Veränderung unter Angabe des Originalen & Verändernden Autors.
+	
+	AENDERUNGS-DATUM
+				 README 15.04.2019 15:20
+				 CPP-Code 16.04.2019 16:10
+#
+#
+# 
+# 
+# 
+#README
+#######
