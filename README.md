@@ -6,5 +6,5 @@ Back then I wrote a Readme that would look good in NotePad++. I have not yet had
 
 ```
 I DO NOT RECOMMEND ANYONE USES THIS IN A PRODUCTION ENVIRONMENT! 
-THIS IS JUST A PERSONAL SEMI-QUICKLY WRITTEN PROGRAM/SCRIPT!
+THIS IS JUST A PERSONAL SEMI-QUICKLY WRITTEN PROGRAM/SCRIPT (with way too much lines in a single file)!
 ```
