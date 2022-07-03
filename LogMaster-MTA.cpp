@@ -1,5 +1,5 @@
 //Title: LogMaster-MTA (LogMaster-MailTransferAgent)
-//Author: Röper Luke, Stadt Augsburg
+//Author: Röper Luke
 //Non-Release-Version: 0.4.2
 //Release-Version: 1.2
 
@@ -661,7 +661,7 @@ void analyze_logarray_by_index(int index)
 				//write to table
 				writeall_mailarray_filtered_byinitid(id_count_mails_in_nonconcernated_mailarray, low_postfix_queue_id_1, low_postfix_queue_id_2, "null", "null", "null", "null", "null", "null", "null", low_internal_pipe_response, "null", time_str);
 			}
-			else if (relay == "exc-smtp-2013") //Incoming Mail
+			else if (relay == "incoming-mailrelay") //Incoming Mail
 			{
 				for (int h = i + 120; log_c[h] != '\0'; h++)
 				{
@@ -721,7 +721,7 @@ void analyze_logarray_by_index(int index)
 
 
 			}
-			else if (relay == "mailrelay") //Outgoing Mail
+			else if (relay == "outgoing-mailrelay") //Outgoing Mail
 			{
 
 				for (int h = i + 120; log_c[h] != '\0'; h++)
